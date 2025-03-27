@@ -37,8 +37,7 @@ const getEmployeeById = async (req,res,next)=>{
         console.log(employee)
     }catch (err){
         console.log(err);
-        return next(new 
-            HttpError('Something went wrong, could not find the employee',500))
+        return next(new HttpError('Something went wrong, could not find the employee',500))
     }
      
     if(!Employee){
@@ -47,8 +46,7 @@ const getEmployeeById = async (req,res,next)=>{
         // error.code = 404;
         // throw error;//throw error will trigger
         //             //error handling middleware
-        throw new HttpError
-        ('Could not find a employee for the id',404)
+        throw HttpError('Could not find a employee for the id',404)
     }
     res.json({employee: employee.toObject({getters: true})})
 }
@@ -140,19 +138,16 @@ const deleteEmployee = async (req,res,next)=>{
     const EmployeeId = req.params.empid;
     //validate if employeeId is a valid mongoDB object
     if(!mongoose.Types.ObjectId.isValid(EmployeeId)){
-        return next(new HttpError
-            ('Invalid Employee ID',400))
+        return next(new HttpError('Invalid Employee ID',400))
     }
     let employee;
     try {
         employee = await Employee.findById(EmployeeId);
         if(!employee){
-            return next(new HttpError
-                ('Employee not found',404))
+            return next(new HttpError('Employee not found',404))
         }
     }catch (err){
-        return next(new HttpError
-            ('Something went wrong, could not delete employee',500))
+        return next(new HttpError('Something went wrong, could not delete employee',500))
     }
     try {
         await employee.deleteOne();
